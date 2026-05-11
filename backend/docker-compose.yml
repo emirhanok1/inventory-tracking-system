@@ -13,7 +13,7 @@ services:
       - "80:80"
       - "8080:8080"
     volumes:
-      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+      - "//var/run/docker.sock:/var/run/docker.sock:ro"
     networks:
       - inventory_net
 
@@ -45,6 +45,23 @@ services:
       - "6379:6379"
     networks:
       - inventory_net
+
+  auth-service:
+    build:
+      context: ./auth-service
+      dockerfile: Dockerfile
+    container_name: auth-service
+    ports:
+      - "8081:8081"
+    depends_on:
+      - postgres-db
+      - redis-cache
+    networks:
+      - inventory_net
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.auth.rule=PathPrefix(`/api/v1/auth`)"
+      - "traefik.http.services.auth.loadbalancer.server.port=8081"
 
 networks:
   inventory_net:

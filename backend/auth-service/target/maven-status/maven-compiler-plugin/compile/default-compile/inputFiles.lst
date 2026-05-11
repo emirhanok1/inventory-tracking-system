@@ -1,1 +1,9 @@
+C:\Users\Monster\Desktop\inventory-tracking-system\backend\auth-service\src\main\java\com\inventory\auth\repository\UserRepository.java
+C:\Users\Monster\Desktop\inventory-tracking-system\backend\auth-service\src\main\java\com\inventory\auth\controller\AuthController.java
+C:\Users\Monster\Desktop\inventory-tracking-system\backend\auth-service\src\main\java\com\inventory\auth\dto\RegisterRequest.java
+C:\Users\Monster\Desktop\inventory-tracking-system\backend\auth-service\src\main\java\com\inventory\auth\config\RedisConfig.java
+C:\Users\Monster\Desktop\inventory-tracking-system\backend\auth-service\src\main\java\com\inventory\auth\dto\AuthResponse.java
+C:\Users\Monster\Desktop\inventory-tracking-system\backend\auth-service\src\main\java\com\inventory\auth\dto\LoginRequest.java
+C:\Users\Monster\Desktop\inventory-tracking-system\backend\auth-service\src\main\java\com\inventory\auth\service\AuthService.java
 C:\Users\Monster\Desktop\inventory-tracking-system\backend\auth-service\src\main\java\com\inventory\auth\AuthServiceApplication.java
+C:\Users\Monster\Desktop\inventory-tracking-system\backend\auth-service\src\main\java\com\inventory\auth\entity\User.java

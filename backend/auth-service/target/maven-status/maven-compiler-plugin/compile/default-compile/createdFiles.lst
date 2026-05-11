@@ -1,1 +1,9 @@
+com\inventory\auth\controller\AuthController.class
+com\inventory\auth\service\AuthService.class
+com\inventory\auth\config\RedisConfig.class
+com\inventory\auth\dto\LoginRequest.class
+com\inventory\auth\dto\AuthResponse.class
+com\inventory\auth\dto\RegisterRequest.class
+com\inventory\auth\entity\User.class
 com\inventory\auth\AuthServiceApplication.class
+com\inventory\auth\repository\UserRepository.class

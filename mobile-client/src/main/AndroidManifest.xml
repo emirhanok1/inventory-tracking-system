@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    AndroidManifest.xml — Inventory Mobile Client
+    =============================================
+    Bu dosya Android uygulamasının giriş noktasını, izinlerini ve
+    bileşenlerini tanımlar.
+
+    Servis mimarisiyle haberleşmek için INTERNET izni zorunludur.
+    clearTextTraffic=true: yerel geliştirme ortamında HTTP (non-HTTPS) kullanımı için.
+    Production'da false yapılmalı ve Traefik'te TLS/HTTPS zorunlu kılınmalı.
+-->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- ═══════════════════════════════════════
+         PERMISSIONS (İzinler)
+         ═══════════════════════════════════════ -->
+
+    <!--
+        INTERNET: Backend mikroservislerine Retrofit ile bağlanmak için zorunlu.
+        Traefik Gateway → auth-service / inventory-service / audit-service
+    -->
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <!--
+        ACCESS_NETWORK_STATE: Bağlantı kontrolü (WiFi/Mobile veri).
+        Network önbellek stratejisi için OkHttp interceptor ile kullanılır.
+    -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <!-- ═══════════════════════════════════════
+         APPLICATION
+         ═══════════════════════════════════════ -->
+    <application
+        android:name=".InventoryApp"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.InventoryMobileClient"
+        android:usesCleartextTraffic="true"
+        tools:targetApi="28">
+
+        <!--
+            SplashActivity — Uygulama başlangıç ekranı.
+            Intent filter ile launcher olarak işaretlendi.
+        -->
+        <activity
+            android:name=".ui.splash.SplashActivity"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.InventoryMobileClient.Splash">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!-- LoginActivity — JWT token alınır, SharedPreferences'a yazılır -->
+        <activity
+            android:name=".ui.auth.LoginActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+
+        <!-- MainActivity — Ana navigasyon hub'ı (Bottom Navigation) -->
+        <activity
+            android:name=".ui.main.MainActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+
+        <!-- InventoryListActivity — Stok listesi + GenericPaginator entegrasyonu -->
+        <activity
+            android:name=".ui.inventory.InventoryListActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+
+        <!-- DashboardActivity — InventoryGaugeView custom widget gösterimi -->
+        <activity
+            android:name=".ui.dashboard.DashboardActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+
+    </application>
+
+</manifest>
