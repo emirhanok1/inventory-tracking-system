@@ -5,7 +5,7 @@ spring:
   application:
     name: auth-service
   datasource:
-    url: jdbc:postgresql://localhost:5432/auth_db
+    url: jdbc:postgresql://postgres-db:5432/auth_db
     username: root
     password: rootpassword
     driver-class-name: org.postgresql.Driver
@@ -18,5 +18,5 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
   data:
     redis:
-      host: localhost
+      host: redis-cache
       port: 6379

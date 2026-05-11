@@ -47,22 +47,28 @@ public class AuthService {
     }
 
     public AuthResponse login(LoginRequest request) {
-        User user = userRepository.findByUsername(request.getUsername())
-                .orElseThrow(() -> new UnauthorizedException("Geçersiz kullanıcı adı veya şifre"));
+        try {
+            User user = userRepository.findByUsername(request.getUsername())
+                    .orElseThrow(() -> new UnauthorizedException("Geçersiz kullanıcı adı veya şifre"));
 
-        if (!BCrypt.checkpw(request.getPassword(), user.getPassword())) {
-            throw new UnauthorizedException("Geçersiz kullanıcı adı veya şifre");
+            if (!BCrypt.checkpw(request.getPassword(), user.getPassword())) {
+                throw new UnauthorizedException("Geçersiz kullanıcı adı veya şifre");
+            }
+
+            // Session ID oluşturma
+            String sessionId = UUID.randomUUID().toString();
+            // İstenen kural: Redis'te session key formatı session:{userId}
+            String sessionKey = "session:" + user.getId();
+
+            // Redis'e kaydet (Örn. 24 saat geçerli)
+            redisTemplate.opsForValue().set(sessionKey, sessionId, 24, TimeUnit.HOURS);
+
+            return new AuthResponse(sessionId, user.getUsername(), user.getRole(), user.getId());
+        } catch (Exception e) {
+            System.err.println("LOGIN ERROR: " + e.getClass().getName() + ": " + e.getMessage());
+            e.printStackTrace();
+            throw e;
         }
-
-        // Session ID oluşturma
-        String sessionId = UUID.randomUUID().toString();
-        // İstenen kural: Redis'te session key formatı session:{userId}
-        String sessionKey = "session:" + user.getId();
-
-        // Redis'e kaydet (Örn. 24 saat geçerli)
-        redisTemplate.opsForValue().set(sessionKey, sessionId, 24, TimeUnit.HOURS);
-
-        return new AuthResponse(sessionId, user.getUsername(), user.getRole(), user.getId());
     }
 
     public void logout(Long userId) {
