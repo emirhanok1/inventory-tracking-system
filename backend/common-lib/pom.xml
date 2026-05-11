@@ -14,10 +14,94 @@
     <packaging>jar</packaging>
 
     <dependencies>
+
+        <!-- ===== PRODUCTION DEPENDENCIES ===== -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
+
+        <!-- Jackson for JSON serialization (used by GenericResponse) -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+        </dependency>
+
+        <!-- ===== TEST DEPENDENCIES (TDD — JUnit 5 + Mockito) ===== -->
+
+        <!--
+            JUnit 5 (Jupiter) API — Test annotations (@Test, @DisplayName, etc.)
+            scope: test → only included in the test classpath
+        -->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>5.10.2</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!--
+            JUnit 5 Engine — Required to actually run the tests via Maven Surefire
+        -->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>5.10.2</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!--
+            JUnit 5 Params — Enables @ParameterizedTest for data-driven tests
+        -->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-params</artifactId>
+            <version>5.10.2</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!--
+            Mockito Core — Mock object creation (@Mock, @Spy, @Captor)
+        -->
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <version>5.11.0</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!--
+            Mockito JUnit 5 Extension — Enables @ExtendWith(MockitoExtension.class)
+        -->
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-junit-jupiter</artifactId>
+            <version>5.11.0</version>
+            <scope>test</scope>
+        </dependency>
+
     </dependencies>
+
+    <build>
+        <plugins>
+            <!--
+                Maven Surefire Plugin — must be >= 2.22.0 to support JUnit 5.
+                Without this explicit config, Maven would try to run tests with
+                JUnit 4 and fail silently (tests would be "skipped").
+            -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.2.5</version>
+                <configuration>
+                    <!-- Ensure JUnit 5 platform provider is used -->
+                    <includes>
+                        <include>**/*Test.java</include>
+                        <include>**/*Tests.java</include>
+                    </includes>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>
