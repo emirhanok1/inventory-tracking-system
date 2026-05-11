@@ -1,0 +1,23 @@
+// Top-level settings.gradle for the mobile-client Android project
+// This file tells Gradle the project name and where to find plugins.
+
+pluginManagement {
+    repositories {
+        google()
+        mavenCentral()
+        gradlePluginPortal()
+    }
+}
+
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral()
+        // Mannodermaus JUnit 5 Android runner
+        maven { url 'https://plugins.gradle.org/m2/' }
+    }
+}
+
+rootProject.name = "InventoryMobileClient"
+include ':app'
